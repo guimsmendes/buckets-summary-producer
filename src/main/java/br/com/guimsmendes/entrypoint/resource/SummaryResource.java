@@ -5,6 +5,7 @@ import br.com.guimsmendes.core.SummaryUseCase;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,7 +24,7 @@ public class SummaryResource {
     @RolesAllowed("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response generateSummaryTag(SummaryTagProducerRequest summaryTagProducerRequest) {
+    public Response generateSummaryTag(@Valid SummaryTagProducerRequest summaryTagProducerRequest) {
         var tag = summaryService.createTag(summaryTagProducerRequest);
         return Response.status(CREATED).entity(tag).build();
     }
