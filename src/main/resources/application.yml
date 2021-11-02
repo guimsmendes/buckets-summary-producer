@@ -4,7 +4,7 @@ default:
 quarkus:
   mongodb:
     connection-string: ${QUARKUS_MONGODB_URL}
-#    database: quarkus-governance
+    database: quarkus-governance
   datasource:
     db-kind: h2
     jdbc:

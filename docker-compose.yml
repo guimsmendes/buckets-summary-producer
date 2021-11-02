@@ -2,12 +2,12 @@ version: '3'
 
 services:
   buckets-summary:
-    image: quarkus/buckets-summary-producer:latest
+    image: quarkus/buckets-summary:latest
     build:
       context: ./
       dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
     environment:
-      QUARKUS_MONGODB_URL: mongodb://mongodb-buckets:27017/quarkus-governance
+      QUARKUS_MONGODB_URL: mongodb://mongodb-buckets:27017
     networks:
       - local
     ports:
@@ -25,3 +25,6 @@ services:
 networks:
  local:
   driver: bridge
+
+volumes:
+  mongodb.buckets:
