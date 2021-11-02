@@ -7,6 +7,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,7 +22,7 @@ public class UserResource {
     @PermitAll
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
-    public void insert(UserRequest userRequest) {
+    public void insert(@Valid UserRequest userRequest) {
         userUseCase.addUser(userRequest);
     }
 

@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import static io.restassured.http.ContentType.JSON;
 
 @QuarkusTest
-public class SummaryTagProducerControllerTest {
+public class SummaryResourceTest {
 
     @Test
     void createValidSummaryTag() {

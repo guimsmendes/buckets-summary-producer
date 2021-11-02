@@ -3,8 +3,8 @@ default:
   password: 123456
 quarkus:
   mongodb:
-    connection-string: mongodb://localhost:27017
-    database: quarkus-governance
+    connection-string: ${QUARKUS_MONGODB_URL}
+#    database: quarkus-governance
   datasource:
     db-kind: h2
     jdbc:
