@@ -21,11 +21,28 @@ jobs:
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
-          command: mvn -B -DskipTests clean package
+          command: make package
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: make test
+  create-image:          
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - run:
+          name: Build Docker Image
+          command: make docker-image-build
+      - run:
+          name: Push to Registry
+          command: make push-image
+  deploy:          
+    docker:
+      - image: cimg/openjdk:11.0          
+    steps:
+      - run:
+          name: Deploy
+          command: make deploy
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -34,3 +51,5 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - create-image
+      - deploy
