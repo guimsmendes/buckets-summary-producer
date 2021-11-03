@@ -26,13 +26,17 @@ jobs:
       - run:
           name: Test
           command: ./mvnw test
-  create-image:          
+  create-image:       
     docker:
       - image: cimg/openjdk:11.0
+      - image: docker:17.05.0-ce-git
     steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Build Docker Image
-          command: docker build -f src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
+          command: docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
       - run:
           name: Login to Registry
           command: docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
@@ -51,12 +55,12 @@ jobs:
           command: export IMAGE_ID=$$(docker image inspect registry.heroku.com/buckets-summary-producer/web:1 -f {{.Id}})
       - run:
           name: Deploy
-          command: curl -X PATCH \
-            -H "Authorization: Bearer $$(heroku auth:token)" \
-            -H "Content-Type: application/json" \
-            -H "Accept:application/vnd.heroku+json; version=3.docker-releases" \
-            -d '{ "updates": [{"type": "web",  "docker_image": "$(IMAGE_ID)"}] }' \
-            https://api.heroku.com/apps/buckets-summary-producer/formation
+          command: "curl -X PATCH \
+            -H \"Authorization: Bearer $$(heroku auth:token)\" \
+            -H \"Content-Type: application/json\" \
+            -H \"Accept:application/vnd.heroku+json; version=3.docker-releases\" \
+            -d '{ \"updates\": [{\"type\": \"web\",  \"docker_image\": \"$(IMAGE_ID)\"}] }' \
+            https://api.heroku.com/apps/buckets-summary-producer/formation"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -65,5 +69,9 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
-      - create-image
-      - deploy
+      - create-image:
+          requires: 
+          - build-and-test
+      - deploy:
+          requires: 
+          - create-image
