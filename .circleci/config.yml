@@ -32,7 +32,7 @@ jobs:
     steps:
       - run:
           name: Build Docker Image
-          command: docker build -f ../../src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
+          command: docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
       - run:
           name: Login to Registry
           command: docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
