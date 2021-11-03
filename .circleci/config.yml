@@ -65,5 +65,9 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
-      - create-image
-      - deploy
+      - create-image:
+          requires: 
+          - build-and-test
+      - deploy:
+          requires: 
+          - create-image
