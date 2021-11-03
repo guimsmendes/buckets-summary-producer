@@ -26,11 +26,12 @@ jobs:
       - run:
           name: Test
           command: ./mvnw test
-  create-image:          
+  create-image:       
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
     steps:
+      - checkout
       - run:
           name: Build Docker Image
           command: docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
