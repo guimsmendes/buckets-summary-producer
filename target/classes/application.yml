@@ -1,0 +1,36 @@
+default:
+  username: guimsmendes
+  password: 123456
+quarkus:
+  mongodb:
+    tls: true
+    tls-insecure: true
+    connection-string: mongodb://guimsmendes:guimsmendes0905@mendescluster-shard-00-00.pxqyg.mongodb.net:27017,mendescluster-shard-00-01.pxqyg.mongodb.net:27017,mendescluster-shard-00-02.pxqyg.mongodb.net:27017
+    database: quarkus-governance
+#    devservices:
+#      enabled: true
+#      port: 27017
+  datasource:
+    db-kind: h2
+    jdbc:
+      url: jdbc:h2:mem:default
+      max-size: 16
+      min-size: 0
+  hibernate-orm:
+    dialect: org.hibernate.dialect.H2Dialect
+    database:
+        generation: drop-and-create
+  log:
+    level: INFO
+    console:
+      enable: true
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] %L (%t) %s%e%n"
+  console:
+    color: true
+
+"%test%":
+  quarkus:
+    log:
+      level: DEBUG
+    mongodb:
+      database: quarkus-governance-test
