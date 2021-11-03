@@ -1,16 +1,24 @@
 package br.com.guimsmendes.integ.entrypoint;
 
+import br.com.guimsmendes.dataprovider.repository.BucketsSummaryRepository;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-
 
 import javax.ws.rs.core.Response;
 
 import static io.restassured.http.ContentType.JSON;
+import static org.mockito.Mockito.mock;
 
 @QuarkusTest
 public class SummaryResourceTest {
+
+    @AfterAll
+    public static void shutdown() {
+        var mock = mock(BucketsSummaryRepository.class);
+        mock.deleteAll();
+    }
 
     @Test
     void createValidSummaryTag() {
