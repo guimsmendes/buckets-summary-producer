@@ -32,6 +32,8 @@ jobs:
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Build Docker Image
           command: docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
