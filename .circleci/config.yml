@@ -33,11 +33,7 @@ jobs:
       - checkout
       - run:
           name: Echos
-          command: |
-            - echo $IMAGE_NAME
-            - echo $CIRCLE_USERNAME
-            - echo $GITHUB_TOKEN
-            - echo $USERNAME
+          command: echo $IMAGE_NAME/$CIRCLE_USERNAME/$GITHUB_TOKEN/$USERNAME
       - run:
           name: Build
           command: make package
