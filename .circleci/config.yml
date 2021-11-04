@@ -28,7 +28,7 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: ./mvnw test
+          command: make test
       - run:
           name: Build Docker Image
           command: pwd
