@@ -45,15 +45,13 @@ jobs:
           name: Publish on DockerHub
           command: make push-image DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG USERNAME=$CIRCLE_USERNAME DOCKER_TOKEN=$DOCKER_ACCESS_TOKEN
       - heroku/install
-      - run: docker logout
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image-registry DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG
-
+          command: make push-image-registry HEROKU_IMAGE_NAME==$CIRCLE_PROJECT_REPONAME IMAGE_TAG=$IMAGE_TAG
       - run:
           name: Deploy
-          command: make deploy DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME REPO_NAME=$CIRCLE_PROJECT_REPONAME
+          command: make deploy HEROKU_IMAGE_NAME=$CIRCLE_PROJECT_REPONAME
 
 
       
