@@ -8,9 +8,7 @@ executors:
   docker-publisher:
     environment:
       IMAGE_TAG: summary-quarkus
-      IMAGE_NAME: $CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
-      REGISTRY_IMAGE_NAME: registry.heroku.com/$CIRCLE_PROJECT_REPONAME/$IMAGE_NAME
-      USERNAME: guimsmendes
+      GITHUB_TOKEN: $GITHUB_TOKEN
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
@@ -27,12 +25,10 @@ workflows:
           - create-image
 jobs:
   build-and-test:
-    executor: docker-publisher
+    docker:
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
-      - run:
-          name: Echos
-          command: echo $IMAGE_NAME/$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG/$CIRCLE_USERNAME/$GITHUB_TOKEN/$USERNAME
       - run:
           name: Build
           command: make package
@@ -52,10 +48,10 @@ jobs:
           name: DockerHub Login
           command: |
             echo $CIRCLE_USERNAME
-            make docker-login USERNAME=$USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
+            make docker-login USERNAME=$CIRCLE_USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
       - run:
           name: Publish on DockerHub
-          command: make push-image IMAGE_NAME=$IMAGE_NAME
+          command: make push-image IMAGE_NAME=$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
   deploy:
     executor: docker-publisher
     steps:
@@ -63,10 +59,10 @@ jobs:
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image-registry IMAGE_NAME=$IMAGE_NAME REGISTRY_IMAGE_NAME=$REGISTRY_IMAGE_NAME
+          command: make push-image-registry IMAGE_NAME=$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG REGISTRY_IMAGE_NAME=registry.heroku.com/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
       - run:
           name: Deploy
-          command: make deploy REGISTRY_IMAGE_NAME=$REGISTRY_IMAGE_NAME
+          command: make deploy REGISTRY_IMAGE_NAME=registry.heroku.com/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
 
 
       
