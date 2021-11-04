@@ -3,6 +3,15 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@1.2.6
 
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: guimsmendes/buckets-summary-producer
+      REGISTRY_IMAGE_NAME: registry.heroku.com/buckets-summary-producer
+    docker:
+      - image: cimg/openjdk:11.0
+      - image: docker:17.05.0-ce-git
+
 workflows:
   heroku_deploy: 
     jobs:
@@ -23,24 +32,28 @@ jobs:
           name: Test
           command: make test
   deploy-image:
-    docker:
-      - image: cimg/openjdk:11.0
-      - image: docker:17.05.0-ce-git
+    executor: docker-publisher
     steps:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: make docker-image-build
+          command: make build-image IMAGE_NAME=$IMAGE_NAME
+      - run:
+          name: Publish on DockerHub
+          command: make push-image IMAGE_NAME=$IMAGE_NAME
+  deploy:
+    executor: docker-publisher
+    steps:
       - heroku/install
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image
+          command: make push-image-registry IMAGE_NAME=$IMAGE_NAME REGISTRY_IMAGE_NAME=$REGISTRY_IMAGE_NAME
       - run:
           name: Deploy
-          command: make deploy
+          command: make deploy REGISTRY_IMAGE_NAME=$REGISTRY_IMAGE_NAME
 
 
       

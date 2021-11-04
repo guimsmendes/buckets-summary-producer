@@ -1,8 +1,5 @@
 .DS_Store
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
-!target/quarkus-app/*
+target
 *.iml
 .idea
 .settings
