@@ -48,7 +48,7 @@ jobs:
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image-registry HEROKU_IMAGE_NAME==$CIRCLE_PROJECT_REPONAME IMAGE_TAG=$IMAGE_TAG
+          command: make push-image-registry HEROKU_IMAGE_NAME=$CIRCLE_PROJECT_REPONAME IMAGE_TAG=$IMAGE_TAG
       - run:
           name: Deploy
           command: make deploy HEROKU_IMAGE_NAME=$CIRCLE_PROJECT_REPONAME
