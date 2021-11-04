@@ -12,7 +12,7 @@ stop:
 	@ docker stop IMAGE_ID=$$(docker image inspect $(IMAGE_TAG) -f {{.Id}})
 
 docker-login:
-	@ echo "$(DOCKER_TOKEN)" | docker login -u $(USERNAME) --password-stdin
+	@ docker login -u $(USERNAME) -p $(DOCKER_TOKEN)
 
 push-image: docker-login
 	@ docker tag $(IMAGE_NAME) $(DOCKER_IMAGE_NAME)
