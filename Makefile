@@ -17,17 +17,17 @@ registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 push-image:
-	@ docker tag $(IMAGE_NAME) docker.pkg.github.com/$(USERNAME)/$(IMAGE_NAME)
-	@ docker push docker.pkg.github.com/$(USERNAME)/$(IMAGE_NAME)
+	@ docker tag $(IMAGE_NAME) docker.pkg.github.com/$(DOCKER_IMAGE_NAME)
+	@ docker push docker.pkg.github.com/$(DOCKER_IMAGE_NAME)
 
 tag-image-registry:
-	@ docker tag docker.pkg.github.com/$(DOCKER_IMAGE_NAME):latest $(REGISTRY_IMAGE_NAME)/web
+	@ docker tag docker.pkg.github.com/$(DOCKER_IMAGE_NAME):latest registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
 
 push-image-registry: tag-image-registry
-	@ docker push $(REGISTRY_IMAGE_NAME)/web
+	@ docker push registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
 
 deploy:
-	@ make deploy_on_heroku IMAGE_ID=$$(docker image inspect $(REGISTRY_IMAGE_NAME)/web -f {{.Id}})
+	@ make deploy_on_heroku IMAGE_ID=$$(docker image inspect registry.heroku.com/$(DOCKER_IMAGE_NAME)/web -f {{.Id}})
 
 deploy_on_heroku:
 	@ curl -X PATCH \
@@ -35,4 +35,4 @@ deploy_on_heroku:
             -H "Content-Type: application/json" \
             -H "Accept:application/vnd.heroku+json; version=3.docker-releases" \
             -d '{ "updates": [{"type": "web",  "docker_image": "$(IMAGE_ID)"}] }' \
-            https://api.heroku.com/apps/buckets-summary-producer/formation
+            https://api.heroku.com/apps/$(REPO_NAME)/formation
