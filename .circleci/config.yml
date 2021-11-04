@@ -46,12 +46,12 @@ jobs:
       - run:
           name: Build Docker Image
           command: make build-image IMAGE_NAME=$IMAGE_NAME
-      - run:
-          name: DockerHub Login
-          command: make docker-login USERNAME=$CIRCLE_USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
+#      - run:
+#          name: DockerHub Login
+#          command: make docker-login USERNAME=$CIRCLE_USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
       - run:
           name: Publish on DockerHub
-          command: make push-image DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_NAME=$IMAGE_NAME
+          command: make push-image DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_NAME=$IMAGE_NAME USERNAME=$CIRCLE_USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
   deploy:
     executor: docker-publisher
     steps:

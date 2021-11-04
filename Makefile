@@ -13,12 +13,13 @@ stop:
 
 docker-login:
 	@ echo "$(GITHUB_TOKEN)" | docker login docker.pkg.github.com -u $(USERNAME) --password-stdin
-registry-login:
-	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
-push-image:
+push-image: docker-login
 	@ docker tag $(IMAGE_NAME) docker.pkg.github.com/$(DOCKER_IMAGE_NAME)
 	@ docker push docker.pkg.github.com/$(DOCKER_IMAGE_NAME)
+
+registry-login:
+	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 tag-image-registry:
 	@ docker tag docker.pkg.github.com/$(DOCKER_IMAGE_NAME):latest registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
