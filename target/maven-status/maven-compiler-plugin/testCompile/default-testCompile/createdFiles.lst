@@ -1,7 +1,0 @@
-br/com/guimsmendes/integ/entrypoint/SummaryResourceTest.class
-br/com/guimsmendes/unit/usecase/UserUseCaseTest.class
-br/com/guimsmendes/unit/usecase/mapper/UserMapperTest.class
-br/com/guimsmendes/unit/TestSupport.class
-br/com/guimsmendes/unit/usecase/mapper/BucketsSummaryMapperTest.class
-br/com/guimsmendes/integ/entrypoint/UserResourceTest.class
-br/com/guimsmendes/unit/usecase/SummaryUseCaseTest.class
