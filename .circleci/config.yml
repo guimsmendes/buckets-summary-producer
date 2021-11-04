@@ -7,7 +7,7 @@ orbs:
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: quarkus
+      IMAGE_TAG: quarkus
       DOCKER_IMAGE_NAME: ${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     docker:
       - image: cimg/openjdk:11.0
@@ -43,21 +43,15 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: make build-image IMAGE_NAME=$IMAGE_NAME
+          command: make build-image IMAGE_TAG=$IMAGE_TAG
       - run:
           name: Publish on DockerHub
-          command: make push-image DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_NAME=$IMAGE_NAME USERNAME=$CIRCLE_USERNAME DOCKER_TOKEN=$DOCKER_ACCESS_TOKEN
-  deploy:
-    executor: docker-publisher
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
+          command: make push-image DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG USERNAME=$CIRCLE_USERNAME DOCKER_TOKEN=$DOCKER_ACCESS_TOKEN
       - heroku/install
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image-registry DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_NAME=$IMAGE_NAME
+          command: make push-image-registry DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG
       - run:
           name: Deploy
           command: make deploy DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME REPO_NAME=$CIRCLE_PROJECT_REPONAME
