@@ -29,8 +29,10 @@ jobs:
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
+    executor: heroku/default
     steps:
       - checkout
+      - heroku/install
       - setup_remote_docker:
           version: 19.03.13
       - run:
