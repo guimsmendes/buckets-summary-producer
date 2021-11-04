@@ -13,11 +13,11 @@ stop:
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
-tag-image: registry-login
-	@ docker tag guimsmendes/buckets-summary-producer-jvm:latest registry.heroku.com/buckets-summary-producer/web:1
+tag-image:
+	@ docker tag guimsmendes/buckets-summary-producer-jvm:latest registry.heroku.com/buckets-summary-producer/web
 
 push-image: tag-image
-	@ docker push registry.heroku.com/buckets-summary-producer/web:1
+	@ docker push registry.heroku.com/buckets-summary-producer/web
 
 deploy:
 	@ make deploy_on_heroku IMAGE_ID=$$(docker image inspect registry.heroku.com/buckets-summary-producer/web:1 -f {{.Id}})

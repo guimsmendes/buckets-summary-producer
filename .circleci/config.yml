@@ -37,6 +37,9 @@ jobs:
       ## Heroku
       - heroku/install
       - run: heroku container:login
+      - run:
+          name: Tag
+          command: make tag-image
       - heroku/push-docker-image:
           process-types: web
       - heroku/release-docker-image:
