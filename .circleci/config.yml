@@ -2,12 +2,15 @@ version: 2.1
 
 orbs:
   heroku: circleci/heroku@1.2.6
+  github-cli: circleci/github-cli@1.0.4
 
 executors:
   docker-publisher:
     environment:
       IMAGE_NAME: guimsmendes/buckets-summary-producer
       REGISTRY_IMAGE_NAME: registry.heroku.com/buckets-summary-producer
+      USERNAME: guimsmendes
+      GITHUB_TOKEN: $GITHUB_TOKEN
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
@@ -43,6 +46,9 @@ jobs:
       - run:
           name: Build Docker Image
           command: make build-image IMAGE_NAME=$IMAGE_NAME
+      - run:
+          name: DockerHub Login
+          command: make docker-login USERNAME=$USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
       - run:
           name: Publish on DockerHub
           command: make push-image IMAGE_NAME=$IMAGE_NAME
