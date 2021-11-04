@@ -7,9 +7,6 @@ quarkus:
     tls-insecure: true
     connection-string: mongodb://guimsmendes:guimsmendes0905@mendescluster-shard-00-00.pxqyg.mongodb.net:27017,mendescluster-shard-00-01.pxqyg.mongodb.net:27017,mendescluster-shard-00-02.pxqyg.mongodb.net:27017
     database: quarkus-governance
-#    devservices:
-#      enabled: true
-#      port: 27017
   datasource:
     db-kind: h2
     jdbc:
