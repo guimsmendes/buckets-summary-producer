@@ -7,9 +7,12 @@ workflows:
   heroku_deploy: 
     jobs:
       - build-and-test
-      - deploy-image:
+      - create-image:
           requires: 
           - build-and-test
+      - deploy:
+          requires:
+          - create-image
 jobs:
   build-and-test:
     docker:
@@ -22,19 +25,23 @@ jobs:
       - run:
           name: Test
           command: make test
-  deploy-image:       
+  create-image:
     docker:
-      - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-      ## Docker image
       - run:
           name: Build Docker Image
           command: make docker-image-build
-      ## Heroku
+  deploy:
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - heroku/install
       - run: heroku container:login
       - run:
