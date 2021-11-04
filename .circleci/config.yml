@@ -8,8 +8,8 @@ executors:
   docker-publisher:
     environment:
       IMAGE_NAME: quarkus
-      GITHUB_TOKEN: $GITHUB_TOKEN
-      DOCKER_IMAGE_NAME: "${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${IMAGE_NAME}"
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      DOCKER_IMAGE_NAME: ${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${IMAGE_NAME}
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
