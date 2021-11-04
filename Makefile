@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 test:
 	@ ./mvnw test
 package:
