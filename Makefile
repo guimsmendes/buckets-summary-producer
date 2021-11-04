@@ -12,7 +12,7 @@ stop:
 	@ docker stop IMAGE_ID=$$(docker image inspect $(IMAGE_TAG) -f {{.Id}})
 
 docker-login:
-	@ echo "$(GITHUB_TOKEN)" | docker login docker.pkg.github.com -u $(CIRCLE_USERNAME) --password-stdin
+	@ echo "$(GITHUB_TOKEN)" | docker login docker.pkg.github.com -u $(USERNAME) --password-stdin
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 

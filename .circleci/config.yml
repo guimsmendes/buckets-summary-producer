@@ -48,7 +48,9 @@ jobs:
           command: make build-image IMAGE_TAG=$IMAGE_TAG
       - run:
           name: DockerHub Login
-          command: make docker-login USERNAME=$USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
+          command: |
+            echo $CIRCLE_USERNAME
+            make docker-login USERNAME=$USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
       - run:
           name: Publish on DockerHub
           command: make push-image IMAGE_NAME=$IMAGE_NAME
