@@ -33,6 +33,17 @@ jobs:
       - run:
           name: Build Docker Image
           command: make docker-image-build
+<<<<<<< HEAD
+=======
+  deploy:
+    docker:
+      - image: cimg/openjdk:11.0
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+>>>>>>> eec8e1d55a2a0d87203b5e7b480d1eeeac464f27
       - heroku/install
       - run: heroku container:login
       - run:
