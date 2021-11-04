@@ -20,18 +20,12 @@ jobs:
       - checkout
       # Use mvn clean and package as the standard maven build phase
       - run:
-          name: Build Docker Image
-          command: pwd
-      - run:
           name: Build
-          command: ./mvnw clean package -DskipTests
+          command: make package
       # Then run your tests!
       - run:
           name: Test
           command: make test
-      - run:
-          name: Build Docker Image
-          command: pwd
   create-image:       
     docker:
       - image: cimg/openjdk:11.0
@@ -42,34 +36,17 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: pwd
-      - run:
-          name: Build Docker Image
-          command: docker build . --file ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm
-      - run:
-          name: Login to Registry
-          command: docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
-      - run:
-          name: Tag Image
-          command: docker tag guimsmendes/buckets-summary-producer-jvm:latest registry.heroku.com/buckets-summary-producer/web:1
+          command: make docker-image-build
       - run:
           name: Push to Registry
-          command: docker push registry.heroku.com/buckets-summary-producer/web:1
+          command: make push-image
   deploy:
     docker:
       - image: cimg/openjdk:11.0
     steps:
       - run:
-          name: Export Id
-          command: export IMAGE_ID=$$(docker image inspect registry.heroku.com/buckets-summary-producer/web:1 -f {{.Id}})
-      - run:
           name: Deploy
-          command: "curl -X PATCH \
-            -H \"Authorization: Bearer $$(heroku auth:token)\" \
-            -H \"Content-Type: application/json\" \
-            -H \"Accept:application/vnd.heroku+json; version=3.docker-releases\" \
-            -d '{ \"updates\": [{\"type\": \"web\",  \"docker_image\": \"$(IMAGE_ID)\"}] }' \
-            https://api.heroku.com/apps/buckets-summary-producer/formation"
+          command: make deploy
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
