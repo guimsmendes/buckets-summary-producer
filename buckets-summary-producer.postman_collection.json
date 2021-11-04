@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "63b6c701-205e-47e7-a2cc-406c57c142d8",
+		"name": "buckets-summary-producer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List Valid Tag",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.environment.set(\"host\", \"localhost:8080\");",
+							"pm.environment.set(\"host\", \"buckets-summary-producer.herokuapp.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "guimsmendes",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/summary/61846f9fa6979e1c2284f87d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"summary",
+						"61846f9fa6979e1c2284f87d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Valid Tag",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.environment.set(\"host\", \"localhost:8080\");",
+							"pm.environment.set(\"host\", \"buckets-summary-producer.herokuapp.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "guimsmendes",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"index\" : \"i-mkp-hot\",\n    \"bucket\" : \"guardRail\",\n    \"quantity\"  : 1000\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/summary/tag-producer",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"summary",
+						"tag-producer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.environment.set(\"host\", \"localhost:8080\");",
+							"pm.environment.set(\"host\", \"buckets-summary-producer.herokuapp.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"guimsmendes\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/users",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.environment.set(\"host\", \"localhost:8080\");",
+							"pm.environment.set(\"host\", \"buckets-summary-producer.herokuapp.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/users",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.environment.set(\"host\", \"localhost:8080\");",
+							"pm.environment.set(\"host\", \"buckets-summary-producer.herokuapp.com\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "guimsmendes",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/users",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
