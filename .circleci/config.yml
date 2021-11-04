@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  heroku: circleci/heroku@0.0.10
+  heroku: circleci/heroku@1.2.6
 
 workflows:
   heroku_deploy: 
@@ -29,22 +29,21 @@ jobs:
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
-    executor: heroku/default
     steps:
       - checkout
-      - heroku/install
       - setup_remote_docker:
           version: 19.03.13
       - run:
           name: Build Docker Image
           command: make docker-image-build
-      - run:
-          name: Push to Registry
-          command: make push-image
   deploy:
     docker:
       - image: cimg/openjdk:11.0
+      - image: docker:17.05.0-ce-git
     steps:
-      - run:
-          name: Deploy
-          command: make deploy
+      - heroku/install
+      - run: heroku container:login
+      - heroku/push-docker-image:
+          process-types: web
+      - heroku/release-docker-image:
+          process-types: web
