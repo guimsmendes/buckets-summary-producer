@@ -7,10 +7,10 @@ orbs:
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: guimsmendes/buckets-summary-producer
-      REGISTRY_IMAGE_NAME: registry.heroku.com/buckets-summary-producer
+      IMAGE_TAG: summary-quarkus
+      IMAGE_NAME: $CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
+      REGISTRY_IMAGE_NAME: registry.heroku.com/$CIRCLE_PROJECT_REPONAME/$IMAGE_NAME
       USERNAME: guimsmendes
-      GITHUB_TOKEN: $GITHUB_TOKEN
     docker:
       - image: cimg/openjdk:11.0
       - image: docker:17.05.0-ce-git
@@ -45,10 +45,10 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: make build-image IMAGE_NAME=$IMAGE_NAME
+          command: make build-image IMAGE_TAG=$IMAGE_TAG
       - run:
           name: DockerHub Login
-          command: make docker-login USERNAME=$USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
+          command: make docker-login CIRCLE_USERNAME=$CIRCLE_USERNAME GITHUB_TOKEN=$GITHUB_TOKEN
       - run:
           name: Publish on DockerHub
           command: make push-image IMAGE_NAME=$IMAGE_NAME
