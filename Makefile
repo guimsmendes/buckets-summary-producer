@@ -15,14 +15,14 @@ docker-login:
 	@ docker login -u $(USERNAME) -p $(DOCKER_TOKEN)
 
 push-image: docker-login
-	@ docker tag $(IMAGE_NAME) $(DOCKER_IMAGE_NAME)
-	@ docker push $(DOCKER_IMAGE_NAME)
+	@ docker tag $(IMAGE_NAME) $(DOCKER_IMAGE_NAME):$(IMAGE_NAME)
+	@ docker push $(DOCKER_IMAGE_NAME):$(IMAGE_NAME)
 
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 tag-image-registry:
-	@ docker tag $(DOCKER_IMAGE_NAME) registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
+	@ docker tag $(DOCKER_IMAGE_NAME):latest registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
 
 push-image-registry: tag-image-registry
 	@ docker push registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
