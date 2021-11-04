@@ -20,12 +20,18 @@ jobs:
       - checkout
       # Use mvn clean and package as the standard maven build phase
       - run:
+          name: Build Docker Image
+          command: pwd
+      - run:
           name: Build
           command: ./mvnw clean package -DskipTests
       # Then run your tests!
       - run:
           name: Test
           command: ./mvnw test
+      - run:
+          name: Build Docker Image
+          command: pwd
   create-image:       
     docker:
       - image: cimg/openjdk:11.0
@@ -36,7 +42,10 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm ./
+          command: pwd
+      - run:
+          name: Build Docker Image
+          command: docker build . --file ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm
       - run:
           name: Login to Registry
           command: docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
