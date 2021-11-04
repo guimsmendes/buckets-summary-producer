@@ -8,11 +8,8 @@ executors:
   docker-publisher:
     environment:
       IMAGE_TAG: summary-quarkus
-      CIRCLE_USERNAME: $CIRCLE_USERNAME
-      CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME
       IMAGE_NAME: $CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG
       REGISTRY_IMAGE_NAME: registry.heroku.com/$CIRCLE_PROJECT_REPONAME/$IMAGE_NAME
-      GITHUB_TOKEN: $GITHUB_TOKEN
       USERNAME: guimsmendes
     docker:
       - image: cimg/openjdk:11.0
@@ -35,7 +32,7 @@ jobs:
       - checkout
       - run:
           name: Echos
-          command: echo $IMAGE_NAME/$CIRCLE_USERNAME/$GITHUB_TOKEN/$USERNAME
+          command: echo $IMAGE_NAME/$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/$IMAGE_TAG/$CIRCLE_USERNAME/$GITHUB_TOKEN/$USERNAME
       - run:
           name: Build
           command: make package
