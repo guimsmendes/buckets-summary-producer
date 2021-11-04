@@ -17,12 +17,9 @@ workflows:
   heroku_deploy: 
     jobs:
       - build-and-test
-      - create-image:
+      - deploy-image:
           requires: 
           - build-and-test
-      - deploy:
-          requires:
-          - create-image
 jobs:
   build-and-test:
     docker:
@@ -35,7 +32,7 @@ jobs:
       - run:
           name: Test
           command: make test
-  create-image:
+  deploy-image:
     executor: docker-publisher
     steps:
       - checkout
