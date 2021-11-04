@@ -5,16 +5,16 @@ test:
 package:
 	@ ./mvnw clean package -DskipTests
 docker-image-build:
-	@ docker build -f ./Dockerfile.jvm -t buckets-summary-producer .
+	@ docker build -f ./src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer .
 run: docker-image-build
-	@ docker run -i --rm -p 8080:8080 guimsmendes/buckets-summary-producer-jvm
+	@ docker run -i --rm -p 8080:8080 guimsmendes/buckets-summary-producer
 stop:
 	@ docker stop IMAGE_ID=$$(docker image inspect guimsmendes/buckets-summary-producer -f {{.Id}})
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 tag-image:
-	@ docker tag buckets-summary-producer:latest registry.heroku.com/buckets-summary-producer/web
+	@ docker tag guimsmendes/buckets-summary-producer:latest registry.heroku.com/buckets-summary-producer/web
 
 push-image: tag-image
 	@ docker push registry.heroku.com/buckets-summary-producer/web

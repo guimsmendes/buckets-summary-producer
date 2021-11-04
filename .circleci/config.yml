@@ -38,11 +38,11 @@ jobs:
       - heroku/install
       - run: heroku container:login
       - run:
-          name: Tag
-          command: make tag-image
-      - heroku/push-docker-image:
-          process-types: web
-      - heroku/release-docker-image:
-          process-types: web
+          name: Push image to Registry
+          command: make push-image
+      - run:
+          name: Deploy
+          command: make deploy
+
       
 
