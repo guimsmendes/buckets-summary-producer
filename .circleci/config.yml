@@ -58,6 +58,7 @@ workflows:
       - create-image:
           requires: 
           - build-and-test
+          path: workspace
       - deploy:
           requires: 
           - create-image
