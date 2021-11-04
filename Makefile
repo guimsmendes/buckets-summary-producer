@@ -5,7 +5,7 @@ test:
 package:
 	@ ./mvnw clean package -DskipTests
 docker-image-build:
-	@ docker build -f src/main/docker/Dockerfile.jvm -t guimsmendes/buckets-summary-producer-jvm .
+	@ docker build -t guimsmendes/buckets-summary-producer-jvm .
 run: docker-image-build
 	@ docker run -i --rm -p 8080:8080 guimsmendes/buckets-summary-producer-jvm
 stop:
