@@ -56,9 +56,11 @@ workflows:
     jobs:
       - build-and-test
       - create-image:
+          attach-workspace: true
+          workspace-root: workspace
+          path: workspace
           requires: 
           - build-and-test
-          path: workspace
       - deploy:
           requires: 
           - create-image
