@@ -5,7 +5,7 @@ test:
 package:
 	@ ./mvnw clean package -DskipTests
 build-image:
-	@ docker build -f ./src/main/docker/Dockerfile.jvm -t $(IMAGE_TAG) .
+	@ docker build -f ./src/main/docker/Dockerfile.jvm -t $(IMAGE_NAME) .
 run: build-image
 	@ docker run -i --rm -p 8080:8080 $(IMAGE_TAG)
 stop:
@@ -17,11 +17,11 @@ registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 push-image:
-	@ docker tag $(IMAGE_NAME) docker.pkg.github.com/$(IMAGE_NAME)
-	@ docker push docker.pkg.github.com/$(IMAGE_NAME)
+	@ docker tag $(IMAGE_NAME) docker.pkg.github.com/$(USERNAME)/$(IMAGE_NAME)
+	@ docker push docker.pkg.github.com/$(USERNAME)/$(IMAGE_NAME)
 
 tag-image-registry:
-	@ docker tag docker.pkg.github.com/$(IMAGE_NAME):latest $(REGISTRY_IMAGE_NAME)/web
+	@ docker tag docker.pkg.github.com/$(DOCKER_IMAGE_NAME):latest $(REGISTRY_IMAGE_NAME)/web
 
 push-image-registry: tag-image-registry
 	@ docker push $(REGISTRY_IMAGE_NAME)/web
