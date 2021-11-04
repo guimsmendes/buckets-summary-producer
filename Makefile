@@ -21,7 +21,7 @@ push-image: docker-login
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
-tag-image-registry: docker-login
+tag-image-registry:
 	@ docker tag $(IMAGE_TAG) registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
 
 push-image-registry: tag-image-registry

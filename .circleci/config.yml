@@ -49,7 +49,7 @@ jobs:
       - run: heroku container:login
       - run:
           name: Push image to Registry
-          command: make push-image-registry DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG USERNAME=$CIRCLE_USERNAME DOCKER_TOKEN=$DOCKER_ACCESS_TOKEN
+          command: make push-image-registry DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME IMAGE_TAG=$IMAGE_TAG
 
       - run:
           name: Deploy
