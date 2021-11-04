@@ -12,17 +12,17 @@ stop:
 	@ docker stop IMAGE_ID=$$(docker image inspect $(IMAGE_TAG) -f {{.Id}})
 
 docker-login:
-	@ echo "$(GITHUB_TOKEN)" | docker login docker.pkg.github.com -u $(USERNAME) --password-stdin
+	@ echo "$(DOCKER_TOKEN)" | docker login -u $(USERNAME) --password-stdin
 
 push-image: docker-login
 	@ docker tag $(IMAGE_NAME) $(DOCKER_IMAGE_NAME)
-	@ docker push $(DOCKER_IMAGE_NAME):0.0.1
+	@ docker push $(DOCKER_IMAGE_NAME)
 
 registry-login:
 	@ docker login --username=_ --password=$$(heroku auth:token) registry.heroku.com
 
 tag-image-registry:
-	@ docker tag docker.pkg.github.com/$(DOCKER_IMAGE_NAME):latest registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
+	@ docker tag $(DOCKER_IMAGE_NAME):latest registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
 
 push-image-registry: tag-image-registry
 	@ docker push registry.heroku.com/$(DOCKER_IMAGE_NAME)/web
